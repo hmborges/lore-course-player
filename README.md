@@ -13,9 +13,37 @@ A video and audio player for your local course library, running 100% offline. Br
 
 ---
 
-## How to run
+## Installation
 
-Open a terminal at the **root of your course library** and run:
+Clone this repository **directly into the root folder of your course library**:
+
+```bash
+cd /path/to/your/courses
+git clone git@github.com:hmborges/lore-course-player.git .
+```
+
+> The `.` at the end clones the contents into the current directory instead of creating a subfolder.
+
+Your courses folder will look like this:
+
+```
+/path/to/your/courses/
+├── _player/          ← cloned from this repo
+├── README.md         ← cloned from this repo
+├── Category A/
+│   └── Course Name/
+│       └── ...
+└── Category B/
+    └── ...
+```
+
+That's it — no dependencies to install, no build step.
+
+---
+
+## Running
+
+Open a terminal inside your courses folder and run:
 
 ```bash
 python3 _player/serve.py
@@ -23,7 +51,7 @@ python3 _player/serve.py
 
 The server starts at `http://127.0.0.1:8777` and opens your browser automatically.
 
-### Advanced options
+### Options
 
 ```
 python3 _player/serve.py [options]
@@ -34,16 +62,14 @@ Options:
   --no-browser       Do not open the browser automatically
 ```
 
-**Examples:**
-
 ```bash
-# Point to a specific folder
-python3 _player/serve.py --root "/Volumes/NANONINJA/cursos"
+# Run from a different directory, pointing to your courses folder
+python3 _player/serve.py --root "/path/to/your/courses"
 
-# Change the port
+# Change the port if 8777 is already in use
 python3 _player/serve.py --port 9000
 
-# Headless server (no browser)
+# Start without opening the browser automatically
 python3 _player/serve.py --no-browser
 ```
 
