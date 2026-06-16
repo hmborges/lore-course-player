@@ -255,3 +255,9 @@ Check that the folder follows the `Category/Course/` hierarchy and is not hidden
 
 **Progress lost after moving a course:**  
 The `.progress.json` file must stay inside the course folder. Move it along with the course.
+
+---
+
+## License
+
+MIT © [Henrique Borges (@hmborges)](https://github.com/hmborges)
