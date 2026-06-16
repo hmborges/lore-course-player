@@ -577,6 +577,7 @@ function loadMedia(lesson) {
     video.addEventListener('error',          State._errorListener, { once: true });
     video.src = url;
     video.load();
+    applySpeed();
     video.play().catch(() => {});
   }
 }
@@ -604,6 +605,7 @@ function loadWithMpegts(url, lesson) {
     State._errorListener = onVideoError;
     video.addEventListener('loadedmetadata', State._metaListener,  { once: true });
     video.addEventListener('error',          State._errorListener, { once: true });
+    applySpeed();
     video.play().catch(() => {});
   } catch (e) {
     showVideoUnsupported('Error initializing mpegts.js: ' + e.message);
@@ -637,7 +639,7 @@ function showBuffering() { bufferingEl.classList.add('show'); }
 function hideBuffering()  { bufferingEl.classList.remove('show'); }
 
 video.addEventListener('waiting',  showBuffering);
-video.addEventListener('playing',  hideBuffering);
+video.addEventListener('playing',  () => { hideBuffering(); applySpeed(); });
 video.addEventListener('canplay',  hideBuffering);
 video.addEventListener('ended',    hideBuffering);
 
@@ -818,11 +820,21 @@ function setSpeed(v) {
 }
 
 function applySpeed() {
-  try { video.playbackRate = State.speed; } catch { /* degrade gracefully */ }
+  try {
+    video.defaultPlaybackRate = State.speed;
+    video.playbackRate = State.speed;
+  } catch { /* degrade gracefully */ }
 }
 
 $('speed-dec').addEventListener('click', () => setSpeed(State.speed - SPEED_STEP));
 $('speed-inc').addEventListener('click', () => setSpeed(State.speed + SPEED_STEP));
+
+// Re-apply speed whenever the browser resets playbackRate (e.g. on video load)
+video.addEventListener('ratechange', () => {
+  if (Math.abs(video.playbackRate - State.speed) > 0.01) {
+    applySpeed();
+  }
+});
 
 setSpeed(State.speed); // initialize display
 
