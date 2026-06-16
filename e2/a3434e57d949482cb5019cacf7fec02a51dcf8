@@ -1,0 +1,19 @@
+README.md
+  s_ed9be90598ca73::t_82d108996f998d 258-263
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "e2a3434e57d949482cb5019cacf7fec02a51dcf8",
+  "prompts": {},
+  "sessions": {
+    "s_ed9be90598ca73": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "83873243-fa32-4d3b-ada3-a091e5a63569",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Henrique Borges <henriquemborges8@gmail.com>"
+    }
+  }
+}
