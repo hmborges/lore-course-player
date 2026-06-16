@@ -1,0 +1,19 @@
+README.md
+  s_c578fdd2b496dd::t_139ab04763c365 16,18-46,54,66-67,69,72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "29a6e48534dbe0864edd0c772c53f0deabd97c7c",
+  "prompts": {},
+  "sessions": {
+    "s_c578fdd2b496dd": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4b75937c-6470-487a-a416-74c54feb611e",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "hmoreira_meli <henrique.moreira@mercadolivre.com>"
+    }
+  }
+}
