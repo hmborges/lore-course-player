@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lore</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- Shortcuts overlay -->
+<div id="shortcuts-overlay" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+  <div class="shortcuts-modal">
+    <h2>Keyboard shortcuts</h2>
+
+    <div class="shortcuts-group">
+      <div class="shortcuts-group-title">Playback</div>
+      <table class="shortcuts-table">
+        <tr><td><kbd>Space</kbd></td><td>Play / Pause</td></tr>
+        <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>Seek back / forward 10s</td></tr>
+        <tr><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>Volume +5% / -5%</td></tr>
+        <tr><td><kbd>F</kbd></td><td>Fullscreen</td></tr>
+        <tr><td><kbd>T</kbd></td><td>Theatre mode</td></tr>
+      </table>
+    </div>
+
+    <div class="shortcuts-group">
+      <div class="shortcuts-group-title">Navigation</div>
+      <table class="shortcuts-table">
+        <tr><td><kbd>N</kbd></td><td>Next lesson</td></tr>
+        <tr><td><kbd>P</kbd></td><td>Previous lesson</td></tr>
+        <tr><td><kbd>M</kbd></td><td>Mark as watched</td></tr>
+      </table>
+    </div>
+
+    <div class="shortcuts-group">
+      <div class="shortcuts-group-title">Speed</div>
+      <table class="shortcuts-table">
+        <tr><td><kbd>.</kbd> or <kbd>]</kbd></td><td>Increase speed by 0.1x</td></tr>
+        <tr><td><kbd>,</kbd> or <kbd>[</kbd></td><td>Decrease speed by 0.1x</td></tr>
+        <tr><td><kbd>0</kbd></td><td>Reset to 1.0x</td></tr>
+      </table>
+    </div>
+
+    <div class="shortcuts-group">
+      <div class="shortcuts-group-title">Interface</div>
+      <table class="shortcuts-table">
+        <tr><td><kbd>?</kbd></td><td>Show / hide shortcuts</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Close this panel</td></tr>
+      </table>
+    </div>
+
+    <button class="shortcuts-close" id="shortcuts-close-btn">Close</button>
+  </div>
+</div>
+
+<!-- Topbar -->
+<header id="topbar">
+  <div id="topbar-logo" role="button" tabindex="0" aria-label="Lore — Course Player, go to library">
+    <span class="logo-name">▸ Lore</span>
+  </div>
+  <div id="topbar-center">
+    <input id="search-input" type="search" placeholder="Search courses..." autocomplete="off" aria-label="Search courses">
+  </div>
+  <div id="topbar-right">
+    <span id="library-stats" class="topbar-stats"></span>
+    <button id="help-btn" class="topbar-btn" title="Keyboard shortcuts (?)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="help-btn-label">Help</span>
+    </button>
+  </div>
+</header>
+
+<!-- Home view -->
+<main id="home-view" class="view active">
+  <div id="categories-container"></div>
+</main>
+
+<!-- Course view -->
+<section id="course-view" class="view">
+
+  <!-- Sidebar / Playlist -->
+  <nav id="sidebar">
+    <div id="sidebar-header">
+      <button id="back-btn" aria-label="Back to Library">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div id="course-title-sidebar"></div>
+      <div class="course-progress-bar">
+        <div class="course-progress-label">
+          <span id="sidebar-progress-text">0 watched</span>
+          <span id="sidebar-progress-pct">0%</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="sidebar-progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="sidebar-actions">
+        <button id="sidebar-export-btn" title="Export progress">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <span class="sidebar-actions-sep">·</span>
+        <button id="sidebar-import-btn" title="Import progress">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import
+        </button>
+        <input type="file" id="import-file-input" accept=".json" style="display:none">
+        <button id="jump-current-btn" title="Jump to current lesson">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+          Current
+        </button>
+      </div>
+    </div>
+    <ol id="playlist" aria-label="Course playlist"></ol>
+  </nav>
+
+  <!-- Main player area -->
+  <div id="main-content">
+
+    <!-- Video -->
+    <div id="video-wrap">
+      <video id="main-video" controls preload="auto"></video>
+      <div class="buffering-overlay" id="buffering-overlay">
+        <div class="spinner"></div>
+      </div>
+      <div class="video-unsupported" id="video-unsupported">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="unsupported-msg">Format not supported in this browser.</span>
+      </div>
+    </div>
+
+    <!-- Controls bar -->
+    <div id="controls-bar">
+      <div id="lesson-title-main">Select a lesson</div>
+
+      <!-- Speed -->
+      <div id="speed-control" title="Speed (shortcuts: , / . / 0)">
+        <button id="speed-dec" aria-label="Decrease speed">−</button>
+        <span id="speed-display">1.0x</span>
+        <button id="speed-inc" aria-label="Increase speed">+</button>
+      </div>
+
+      <button class="ctrl-btn" id="prev-btn" title="Previous (P)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+        Previous
+      </button>
+      <button class="ctrl-btn primary" id="next-btn" title="Next (N)">
+        Next
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+      </button>
+      <button class="ctrl-btn" id="mark-btn" title="Mark as watched (M)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Watched
+      </button>
+      <button class="ctrl-btn" id="theater-btn" title="Theatre mode (T)">
+        <span class="icon-theater">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="2" y1="12" x2="22" y2="12" stroke-dasharray="3 2"/></svg>
+          Theatre
+        </span>
+        <span class="icon-normal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          Normal
+        </span>
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div id="content-area">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" data-tab="notes">Notes</button>
+        <button class="tab-btn" role="tab" data-tab="materials">Materials</button>
+      </div>
+
+      <!-- Notes panel -->
+      <div class="tab-panel active" id="tab-notes">
+        <div class="notes-toolbar">
+          <button class="ctrl-btn" id="notes-toggle-btn">Preview</button>
+          <span class="notes-status" id="notes-status"></span>
+        </div>
+        <textarea id="notes-editor" placeholder="Write your notes in markdown…" rows="6"></textarea>
+        <div id="notes-preview"></div>
+      </div>
+
+      <!-- Materials panel -->
+      <div class="tab-panel" id="tab-materials">
+        <ul class="materials-list" id="materials-list"></ul>
+        <div class="empty-state" id="materials-empty" style="display:none">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>No materials in this module</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</section><!-- /course-view -->
+
+<!-- Vendor libs -->
+<script src="/static/vendor/mpegts.min.js" onerror="window.mpegts=null"></script>
+<script src="/static/vendor/marked.min.js" onerror="window.marked=null"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

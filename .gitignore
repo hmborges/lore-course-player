@@ -1,0 +1,33 @@
+# Course content folders (local library — do not commit)
+[0-9][0-9] - */
+
+# Course progress files (auto-generated — do not commit)
+**/.progress.json
+.prog_tmp_*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
