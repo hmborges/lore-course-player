@@ -1,0 +1,21 @@
+_player/static/app.js
+  s_bca68beded2c0b::t_e17d9805ba979a 720
+README.md
+  s_bca68beded2c0b::t_8dec7ec6888561 139
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "da4b38a9022a18a8dd66976668c3c0b2c1a84ce4",
+  "prompts": {},
+  "sessions": {
+    "s_bca68beded2c0b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "6887eb15-65f0-414c-970e-c2184523688b",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Henrique Borges <henriquemborges8@gmail.com>"
+    }
+  }
+}
