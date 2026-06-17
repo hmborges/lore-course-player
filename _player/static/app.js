@@ -717,7 +717,7 @@ function checkAutoWatched() {
   if (!lesson || lesson.watched) return;
   const dur = video.duration;
   if (!dur || isNaN(dur)) return;
-  if (video.currentTime / dur >= 0.9) {
+  if (video.currentTime / dur >= 0.95) {
     State.watchedThresholdFired = true;
     markWatched(State.currentIndex, lesson.id, true);
   }

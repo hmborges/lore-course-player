@@ -136,7 +136,7 @@ Progress for each course is saved in a `.progress.json` file inside the course f
 - Per-module playlist with previous / next buttons
 - "Jump to current lesson" button in the playlist
 - Autoplay when a lesson ends
-- Automatic **watched** marking at 90% of duration
+- Automatic **watched** marking at 95% of duration
 - Manual watched / unwatched toggle
 
 ### Progress
