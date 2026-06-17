@@ -345,7 +345,7 @@ input:focus, textarea:focus {
 }
 #course-view.active {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: var(--sidebar-width, 300px) 4px 1fr;
 }
 
 /* ===== Sidebar ===== */
@@ -898,9 +898,30 @@ input:focus, textarea:focus {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== Sidebar resizer ===== */
+#sidebar-resizer {
+  width: 4px;
+  cursor: col-resize;
+  background: transparent;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  transition: background 150ms;
+}
+#sidebar-resizer:hover,
+#sidebar-resizer.dragging {
+  background: var(--accent);
+}
+#course-view.theater #sidebar-resizer {
+  display: none;
+}
+
 /* ===== Theater mode ===== */
 #course-view.theater {
   grid-template-columns: 1fr;
+  height: auto;
+  min-height: calc(100vh - 53px);
+  overflow: visible;
 }
 #course-view.theater #sidebar {
   display: none;
@@ -910,6 +931,16 @@ input:focus, textarea:focus {
 }
 #course-view.theater #video-wrap {
   width: 100%;
+}
+#course-view.theater #main-content {
+  overflow: visible;
+}
+#course-view.theater #content-area {
+  overflow: visible;
+  min-height: 420px;
+}
+#course-view.theater .tab-panel {
+  overflow: visible;
 }
 
 #theater-btn {

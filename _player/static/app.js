@@ -1098,6 +1098,47 @@ function applyTheaterPreference() {
   setTheater(!!localStorage.getItem('theaterMode'));
 }
 
+// ─── Sidebar resizer ──────────────────────────────────────────────────────
+(function initSidebarResizer() {
+  const resizer  = $('sidebar-resizer');
+  const MIN_W = 180;
+  const MAX_W = 520;
+
+  function applySidebarWidth(w) {
+    courseView.style.setProperty('--sidebar-width', w + 'px');
+  }
+
+  const saved = parseInt(localStorage.getItem('sidebarWidth'), 10);
+  if (saved && saved >= MIN_W && saved <= MAX_W) applySidebarWidth(saved);
+
+  resizer.addEventListener('mousedown', e => {
+    e.preventDefault();
+    resizer.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    function onMove(ev) {
+      const rect = courseView.getBoundingClientRect();
+      const w = Math.min(MAX_W, Math.max(MIN_W, ev.clientX - rect.left));
+      applySidebarWidth(w);
+    }
+
+    function onUp(ev) {
+      resizer.classList.remove('dragging');
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      const rect = courseView.getBoundingClientRect();
+      const w = Math.min(MAX_W, Math.max(MIN_W, ev.clientX - rect.left));
+      localStorage.setItem('sidebarWidth', Math.round(w));
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+})();
+
 // ─── Topbar logo → home ───────────────────────────────────────────────────
 $('topbar-logo').addEventListener('click', () => { location.hash = '#/'; });
 $('topbar-logo').addEventListener('keydown', e => {
