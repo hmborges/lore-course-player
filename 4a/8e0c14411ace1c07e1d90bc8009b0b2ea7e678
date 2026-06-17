@@ -1,0 +1,25 @@
+_player/static/styles.css
+  s_ac94a7c4c6b9a2::t_bbb6c874923d3a 922-924,935-943
+  s_ac94a7c4c6b9a2::t_dc5f8b2ed023fc 348
+  s_ac94a7c4c6b9a2::t_ef46027c79120c 901-918
+_player/static/index.html
+  s_ac94a7c4c6b9a2::t_8ecd82dc2e7772 130-132
+_player/static/app.js
+  s_ac94a7c4c6b9a2::t_300dd30594b93b 1101-1141
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "4a8e0c14411ace1c07e1d90bc8009b0b2ea7e678",
+  "prompts": {},
+  "sessions": {
+    "s_ac94a7c4c6b9a2": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e992959c-f597-48d6-9ff6-6c47d7d9d002",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Henrique Borges <henriquemborges8@gmail.com>"
+    }
+  }
+}
